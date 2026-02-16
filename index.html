@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefiDaiDAO | Official</title>
+    <style>
+        :root {
+            --binance-yellow: #F3BA2F;
+            --bg-dark: #0B0E11;
+            --card-bg: #1E2329;
+            --text-main: #EAECEF;
+            --text-dim: #848E9C;
+            --border: #474D57;
+        }
+
+        body, html { margin: 0; padding: 0; background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        .container {
+            position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg); border-radius: 32px; width: 100%; max-width: 440px; padding: 2.5rem;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8); border: 1px solid var(--border); backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        h1 { color: var(--binance-yellow); font-size: 2.8rem; font-weight: 900; margin: 0; letter-spacing: -1px; }
+        .subtitle { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 30px; }
+
+        /* Highlighted Sponsor Box */
+        .reg-zone { display: none; margin-top: 10px; border-top: 1px solid #2B3139; padding-top: 25px; }
+        .input-box { 
+            background: rgba(243, 186, 47, 0.08); border: 2.5px solid var(--binance-yellow); 
+            border-radius: 15px; padding: 22px; margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(243, 186, 47, 0.2);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.02);} 100% {transform: scale(1);} }
+        input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 0.9rem; text-align: center; font-family: monospace; font-weight: bold; }
+
+        .btn-main { width: 100%; background: var(--binance-yellow); color: #000; padding: 20px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; font-size: 1.2rem; }
+
+        /* Partners Section */
+        .partners { margin-top: 40px; display: flex; gap: 15px; justify-content: center; align-items: flex-start; flex-wrap: wrap; padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .partner-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 8px; width: 65px; transition: 0.3s; }
+        .partner-logo { width: 32px; height: 32px; object-fit: contain; }
+        .partner-link span { font-size: 0.5rem; font-weight: 700; text-transform: uppercase; }
+
+        /* Hide broken images parent */
+        .hidden-logo { display: none !important; }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="container">
+    <div class="card">
+        <h1>DefiDaiDAO</h1>
+        <div class="subtitle">Secure DeFi Ecosystem</div>
+
+        <button id="connectBtn" class="btn-main">Connect Wallet</button>
+
+        <div id="registrationZone" class="reg-zone">
+            <div class="input-box">
+                <input type="text" id="uplineInput" placeholder="PASTE SPONSOR ADDRESS">
+            </div>
+            <button id="registerBtn" class="btn-main">Finalize Registration</button>
+        </div>
+    </div>
+
+    <div class="partners">
+        <div class="partner-link">
+            <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" class="partner-logo" onerror="hideMe(this)">
+            <span>Binance</span>
+        </div>
+        <div class="partner-link">
+            <img src="https://cryptologos.cc/logos/bnb-bnb-logo.png" class="partner-logo" onerror="hideMe(this)">
+            <span>BscScan</span>
+        </div>
+        <div class="partner-link">
+            <img src="https://cryptologos.cc/logos/chainlink-link-logo.png" class="partner-logo" onerror="hideMe(this)">
+            <span>Chainlink</span>
+        </div>
+        <div class="partner-link">
+            <img src="https://cryptologos.cc/logos/pancakeswap-cake-logo.png" class="partner-logo" onerror="hideMe(this)">
+            <span>Pancake</span>
+        </div>
+        <div class="partner-link">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQ4IDBDMjEuNDkwMiAwIDAgMjEuNDkwMiAwIDQ4QzAgNzQuNTA5OCAyMS40OTAyIDk2IDQ4IDk2Qzc0LjUwOTggOTYgOTYgNzQuNTA5OCA5NiA0OEM5NiAyMS40OTAyIDc0LjUwOTggMCA0OCAwWiIgZmlsbD0iIzMzNjdGRiIvPgo8cGF0aCBkPSJNNzIuMzA3IDM1LjIzMDhDNzIuMzA3IDIzLjA3NjkgNjAuMTUzOSAyMy4wNzY5IDYwLjE1MzkgMjMuMDc2OUg0OC4wMDAxSDM1Ljg0NjNMMzIuODA3NyAyMy4wNzY5VjM1LjIzMDhDMzIuODA3NyA1OS40NjE1IDQ4LjAwMDEgNzIuOTIzIDQ4LjAwMDEgNzIuOTIzQzQ4LjAwMDEgNzIuOTIzIDYzLjE5MjMgNTkuNDYxNSA2My4xOTIzIDM1LjIzMDhWIDIzLjA3NjloLTcuMjMwN2wtOC4wMzE1IDguMDMxNSIgZmlsbD0id2hpdGUiLz4KPC9zdmc+" class="partner-logo" onerror="hideMe(this)">
+            <span>Trust</span>
+        </div>
+        <div class="partner-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" class="partner-logo" onerror="hideMe(this)">
+            <span>MetaMask</span>
+        </div>
+        <div class="partner-link">
+            <img src="https://altcoinsbox.com/wp-content/uploads/2023/04/walletconnect-logo.png" class="partner-logo" onerror="hideMe(this)">
+            <span>Connect</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // سیستم حذف خودکار لوگوهای خراب
+    function hideMe(img) {
+        img.parentElement.classList.add('hidden-logo');
+    }
+
+    // Massive Golden Particles
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function init() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        particles = [];
+        for(let i=0; i<100; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*4+2, d: Math.random()*0.5+0.1, o: Math.random()*0.7+0.3 });
+    }
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        particles.forEach(p => {
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(243, 186, 47, ${p.o})`; ctx.fill();
+            p.y -= p.d; if(p.y < -10) p.y = canvas.height + 10;
+        });
+        requestAnimationFrame(draw);
+    }
+    init(); draw();
+
+    document.getElementById('connectBtn').onclick = () => {
+        document.getElementById('connectBtn').innerText = "Wallet Connected";
+        document.getElementById('registrationZone').style.display = "block";
+    };
+</script>
+</body>
+</html>
